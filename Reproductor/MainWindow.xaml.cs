@@ -42,6 +42,8 @@ namespace Reproductor
         //se declara para el efecto del fade in y dafe out
         FadeInOutSampleProvider fades;
 
+        Delay delay;
+
         //es una variable para validar si se esta arrastrando o no el slider
         bool dragging = false;
         //para que solo se pueda usar el fade out una vez
@@ -124,8 +126,10 @@ namespace Reproductor
             {
                 reader = new AudioFileReader(txtRutaArchivo.Text);
 
+                delay = new Delay(reader);
+
                 //Se le da el archivo y si queremos que inicie en total silencio o no
-                fades = new FadeInOutSampleProvider(reader, true);
+                fades = new FadeInOutSampleProvider(delay, true);
                 //se transforman los segundos a mini segundos para la duracion del fade
                 double milisegundosFadeIn = Double.Parse(txtDuracionFadeIn.Text) * 1000.0;
                 fades.BeginFadeIn(milisegundosFadeIn);
