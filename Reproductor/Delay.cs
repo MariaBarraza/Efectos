@@ -11,7 +11,17 @@ namespace Reproductor
     {
 
         private ISampleProvider fuente;
-        public int OffsetMilisegundos { get; set; }
+        public int OffsetMilisegundos
+        {
+            get
+            {
+                return OffsetMilisegundos;
+            }
+            set
+            {
+                OffsetMilisegundos = 0;
+            }
+        }
         private int cantidadMuestrasOffset;
 
         private List<float> bufferDelay = new List<float>();
@@ -63,7 +73,7 @@ namespace Reproductor
             {
                 for (int i = 0; i < read; i++)
                 {
-                    buffer[offset + i] += bufferDelay[cantidadMuestrasTranscurridas-cantidadMuestrasBorradas + i - cantidadMuestrasOffset];
+                    buffer[offset + i] += bufferDelay[cantidadMuestrasTranscurridas-cantidadMuestrasBorradas + i - cantidadMuestrasOffset ];
                 }
             }
 

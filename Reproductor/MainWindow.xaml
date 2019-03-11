@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Reproductor"
         mc:Ignorable="d"
-        Title="R E P R O D U C T O R" Height="277.732" Width="593.903">
+        Title="R E P R O D U C T O R" Height="295.568" Width="789.249">
     <Grid Margin="0,0,2,0">
         <TextBlock HorizontalAlignment="Left" Margin="33,24,0,0" TextWrapping="Wrap" Text="Archivo." VerticalAlignment="Top"/>
         <TextBox x:Name="txtRutaArchivo" HorizontalAlignment="Left" Height="23" Margin="33,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="268"/>
@@ -18,15 +18,23 @@
         <!---Thumb estos eventos son para identificar cuando se inicia a arrastrar el slider y cuando se termina-->
         <TextBlock x:Name="lblTiempoActual" HorizontalAlignment="Left" Margin="33,153,0,0" TextWrapping="Wrap" Text="00:00" VerticalAlignment="Top"/>
         <TextBlock x:Name="lblTiempoFinal" HorizontalAlignment="Left" Margin="273,153,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="00:00"/></TextBlock>
-        <Slider x:Name="sldVolumen" HorizontalAlignment="Left" Margin="538,43,0,0" VerticalAlignment="Top" Width="28" Orientation="Vertical" Height="139" Maximum="1" ValueChanged="sldVolumen_ValueChanged" Value="0.5"/>
-        <TextBlock HorizontalAlignment="Left" Margin="525,24,0,0" TextWrapping="Wrap" Text="Volumen." VerticalAlignment="Top"/>
-        <TextBlock x:Name="lblPorcentajeVolumen" Margin="500,156,35,0" TextWrapping="Wrap" Text="50%" VerticalAlignment="Top" RenderTransformOrigin="-0.48,-0.536"/>
+        <Slider x:Name="sldVolumen" HorizontalAlignment="Left" Margin="671,30,0,0" VerticalAlignment="Top" Width="28" Orientation="Vertical" Height="139" Maximum="1" ValueChanged="sldVolumen_ValueChanged" Value="0.5"/>
+        <TextBlock HorizontalAlignment="Left" Margin="658,11,0,0" TextWrapping="Wrap" Text="Volumen." VerticalAlignment="Top"/>
+        <TextBlock x:Name="lblPorcentajeVolumen" Margin="633,143,-98,0" TextWrapping="Wrap" Text="50%" VerticalAlignment="Top" RenderTransformOrigin="-0.48,-0.536"/>
         <ComboBox HorizontalAlignment="Left" Margin="312,84,0,0" VerticalAlignment="Top" Width="208" x:Name="cbSalida"/>
         <TextBox x:Name="txtDuracionFadeIn" HorizontalAlignment="Left" Height="23" Margin="22,202,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Width="61"/>
         <TextBlock HorizontalAlignment="Left" Margin="25,186,0,0" TextWrapping="Wrap" Text="Duracion Fade in (s):" VerticalAlignment="Top"/>
         <TextBox x:Name="txtDuracionFadeOut" HorizontalAlignment="Left" Height="23" Margin="151,205,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Width="61"/>
         <TextBlock HorizontalAlignment="Left" Margin="151,189,0,0" TextWrapping="Wrap" Text="Duracion Fade out (s):" VerticalAlignment="Top"/>
         <Button x:Name="btnFadeOut" Content="Iniciar Fade Out" HorizontalAlignment="Left" Margin="284,208,0,0" VerticalAlignment="Top" Width="97" Click="btnFadeOut_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="415,182,0,0" TextWrapping="Wrap" Text="Delay" VerticalAlignment="Top" RenderTransformOrigin="-0.33,-0.405"/>
+        <CheckBox x:Name="cbDelayActivo" Content="Activo" HorizontalAlignment="Left" Margin="415,204,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.45,-0.146" Checked="cbDelayActivo_Checked"/>
+        <TextBlock HorizontalAlignment="Left" Margin="492,203,0,0" TextWrapping="Wrap" Text="Offset" VerticalAlignment="Top"/>
+        <Slider x:Name="sldDelayOffset" HorizontalAlignment="Left" Margin="492,224,0,0" VerticalAlignment="Top" Width="129" Maximum="3"/>
+        <TextBlock x:Name="lblDelayOffset" HorizontalAlignment="Left" Margin="586,242,0,0" TextWrapping="Wrap" Text="0 ms" VerticalAlignment="Top" RenderTransformOrigin="0.751,-0.651"/>
+        <TextBlock HorizontalAlignment="Left" Margin="633,205,0,0" TextWrapping="Wrap" Text="Ganancia" VerticalAlignment="Top"/>
+        <Slider x:Name="sldDelayGanancia" HorizontalAlignment="Left" Margin="633,224,0,0" VerticalAlignment="Top" Width="128"/>
+        <TextBlock x:Name="lblDelayGanancia" HorizontalAlignment="Left" Margin="747,242,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
