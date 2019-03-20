@@ -11,15 +11,19 @@ namespace Reproductor
     {
 
         private ISampleProvider fuente;
-        public int OffsetMilisegundos
-        {
+        //variable de respaldo
+        private int offsetMilisegundos;
+        public int OffsetMilisegundos {
             get
             {
-                return OffsetMilisegundos;
+                return offsetMilisegundos;
             }
+
             set
             {
-                OffsetMilisegundos = 0;
+                //este es el valor que se establecio de fuera
+                offsetMilisegundos = value;
+                cantidadMuestrasOffset = (int)(((float) OffsetMilisegundos / 1000.0f) * fuente.WaveFormat.SampleRate);
             }
         }
         private int cantidadMuestrasOffset;
@@ -30,6 +34,8 @@ namespace Reproductor
         private int duracionBufferSegundos;
         private int cantidadMuestrasTranscurridas = 0;
         private int cantidadMuestrasBorradas = 0;
+
+        public bool Activo { get; set; }
 
 
         public WaveFormat WaveFormat
@@ -42,6 +48,7 @@ namespace Reproductor
 
         public Delay(ISampleProvider fuente)
         {
+            Activo = false;
             this.fuente = fuente;
             OffsetMilisegundos = 500;
             cantidadMuestrasOffset = (int)(((float)OffsetMilisegundos / 1000.0f) * fuente.WaveFormat.SampleRate);
@@ -54,29 +61,34 @@ namespace Reproductor
             //Leemos las muestras de la señal fuente
             var read = fuente.Read(buffer, offset, count);
             //Calcular tiempo transcurrido
-            float tiempoTranscurridoSegundos =  (float)cantidadMuestrasTranscurridas / (float) fuente.WaveFormat.SampleRate;
+            float tiempoTranscurridoSegundos = (float)cantidadMuestrasTranscurridas / (float)fuente.WaveFormat.SampleRate;
             float milisegundosTranscurridos = tiempoTranscurridoSegundos * 1000.0f;
+            
             //Llenando el buffer
-            for(int i=0; i < read; i++)
+            for (int i = 0; i < read; i++)
             {
                 bufferDelay.Add(buffer[i + offset]);
             }
+
             //Eliminar excedentes del buffer
-            if(bufferDelay.Count > tamanioBuffer)
+            if (bufferDelay.Count > tamanioBuffer)
             {
                 int diferencia = bufferDelay.Count - tamanioBuffer;
                 bufferDelay.RemoveRange(0, diferencia);
                 cantidadMuestrasBorradas += diferencia;
             }
-            //Aplicar el efecto
-            if(milisegundosTranscurridos>OffsetMilisegundos)
+
+            if (Activo)
             {
-                for (int i = 0; i < read; i++)
+                //Aplicar el efecto
+                if(milisegundosTranscurridos>OffsetMilisegundos)
                 {
-                    buffer[offset + i] += bufferDelay[cantidadMuestrasTranscurridas-cantidadMuestrasBorradas + i - cantidadMuestrasOffset ];
+                    for (int i = 0; i < read; i++)
+                    {
+                        buffer[offset + i] += bufferDelay[cantidadMuestrasTranscurridas - cantidadMuestrasBorradas + i - cantidadMuestrasOffset ];
+                    }
                 }
             }
-
             cantidadMuestrasTranscurridas += read;
             return read;
         }

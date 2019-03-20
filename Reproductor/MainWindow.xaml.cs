@@ -49,7 +49,6 @@ namespace Reproductor
         //para que solo se pueda usar el fade out una vez
         bool fadingOut = false;
 
-        bool delayActive = false;
 
 
         public MainWindow()
@@ -129,7 +128,8 @@ namespace Reproductor
                 reader = new AudioFileReader(txtRutaArchivo.Text);
 
                 delay = new Delay(reader);
-                delay.OffsetMilisegundos = (int)sldDelayOffset.Value * 1000;
+                delay.Activo = (bool)cbDelayActivo.IsChecked;
+                delay.OffsetMilisegundos = (int)sldDelayOffset.Value;
 
                 //Se le da el archivo y si queremos que inicie en total silencio o no
                 fades = new FadeInOutSampleProvider(delay, true);
@@ -244,13 +244,24 @@ namespace Reproductor
             }
         }
 
-        private void cbDelayActivo_Checked(object sender, RoutedEventArgs e)
+        private void cbDelayActivo_Click(object sender, RoutedEventArgs e)
         {
-            delayActive = true;
+            if(delay != null)
+            {
+                delay.Activo = (bool)cbDelayActivo.IsChecked;
+            }
         }
-        private void cbDelayActivo_Uncheked(object sender, RoutedEventArgs e)
+
+        private void sldDelayOffset_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            delayActive = false;
+            if(delay != null)
+            {
+                delay.OffsetMilisegundos = (int)sldDelayOffset.Value;
+            }
+            if(lblDelayOffset!= null)
+            {
+                lblDelayOffset.Text = sldDelayOffset.Value.ToString() + " ms";
+            }
         }
     }
 }
