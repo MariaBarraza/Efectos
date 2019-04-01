@@ -128,6 +128,7 @@ namespace Reproductor
                 reader = new AudioFileReader(txtRutaArchivo.Text);
 
                 delay = new Delay(reader);
+                delay.Ganancia = (float)sldDelayGanancia.Value;
                 delay.Activo = (bool)cbDelayActivo.IsChecked;
                 delay.OffsetMilisegundos = (int)sldDelayOffset.Value;
 
@@ -140,6 +141,8 @@ namespace Reproductor
                 //hay que reiniciar cuando se reinicie la cancion
                 fadingOut = false;
                 output = new WaveOutEvent();
+                //aqui se establece la latencia al buffer para que se corte menos el audio pero la primera vez de llenado del buffer tardara mas
+                output.DesiredLatency = 150;
 
                 //aqui se cambia donde se reproduce
                 output.DeviceNumber = cbSalida.SelectedIndex;
@@ -260,7 +263,20 @@ namespace Reproductor
             }
             if(lblDelayOffset!= null)
             {
-                lblDelayOffset.Text = sldDelayOffset.Value.ToString() + " ms";
+                lblDelayOffset.Text = sldDelayOffset.Value.ToString("f") + " ms";
+            }
+        }
+
+        private void sldDelayGanancia_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if(lblDelayGanancia != null)
+            {
+                lblDelayGanancia.Text = (sldDelayGanancia.Value * 100).ToString("f");
+            }
+
+            if(delay != null)
+            {
+                delay.Ganancia = (float) sldDelayGanancia.Value;
             }
         }
     }

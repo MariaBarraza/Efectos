@@ -35,6 +35,8 @@ namespace Reproductor
         private int cantidadMuestrasTranscurridas = 0;
         private int cantidadMuestrasBorradas = 0;
 
+        public float Ganancia { get; set; }
+
         public bool Activo { get; set; }
 
 
@@ -54,6 +56,7 @@ namespace Reproductor
             cantidadMuestrasOffset = (int)(((float)OffsetMilisegundos / 1000.0f) * fuente.WaveFormat.SampleRate);
             duracionBufferSegundos = 10;
             tamanioBuffer = fuente.WaveFormat.SampleRate * duracionBufferSegundos;
+            Ganancia = 0.5f;
         }
 
         public int Read(float[] buffer, int offset, int count)
@@ -85,7 +88,7 @@ namespace Reproductor
                 {
                     for (int i = 0; i < read; i++)
                     {
-                        buffer[offset + i] += bufferDelay[cantidadMuestrasTranscurridas - cantidadMuestrasBorradas + i - cantidadMuestrasOffset ];
+                        buffer[offset + i] += bufferDelay[cantidadMuestrasTranscurridas - cantidadMuestrasBorradas + i - cantidadMuestrasOffset] * Ganancia;
                     }
                 }
             }
